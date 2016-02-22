@@ -1,7 +1,5 @@
 package com.learnitgirl.myvoc;
 
-import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -40,15 +38,15 @@ public class AddNewWordActivity extends AppCompatActivity {
             case R.id.action_new_word:
                 msg = "New Word";
                 break;
-            case R.id.action_review:
-                msg = "Review";
+            case R.id.action_dictionary:
+                msg = "Dictionary";
                 break;
             case R.id.action_settings:
-                msg = "Review";
+                msg = "Settings";
                 break;
         }
         
-        Toast.makeText(this, msg + "clicked!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, msg + " clicked!", Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
     }
 }

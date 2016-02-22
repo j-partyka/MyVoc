@@ -10,9 +10,9 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_review"
+        android:id="@+id/action_dictionary"
         android:orderInCategory="100"
-        android:title="@string/action_review"
+        android:title="@string/action_dictionary"
         app:showAsAction="never" />
 
     <item

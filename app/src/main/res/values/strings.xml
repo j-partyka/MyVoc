@@ -21,6 +21,6 @@
     <string name="add_new_word">Add New Word</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="action_new_word">New Word</string>
-    <string name="action_review">Review</string>
+    <string name="action_dictionary">Dictionary</string>
     <string name="action_learn">Learn</string>
 </resources>
