@@ -2,6 +2,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".AddNewWordActivity">
+
+    <item
+        android:id="@+id/action_new_word"
+        android:orderInCategory="100"
+        android:title="@string/action_new_word"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_review"
+        android:orderInCategory="100"
+        android:title="@string/action_review"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_learn"
+        android:orderInCategory="100"
+        android:title="@string/action_learn"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

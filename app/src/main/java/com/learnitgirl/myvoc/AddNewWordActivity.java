@@ -1,5 +1,7 @@
 package com.learnitgirl.myvoc;
 
+import android.os.Build;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -45,7 +47,7 @@ public class AddNewWordActivity extends AppCompatActivity {
                 msg = "Review";
                 break;
         }
-
+        
         Toast.makeText(this, msg + "clicked!", Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
     }
