@@ -93,7 +93,11 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
                         " WHERE ? = ?", selectionArgs);
 
         cursor.moveToFirst();
-        String foreignWord = cursor.getString(cursor.getColumnIndex(DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD));
+        String foreignWord = "";
+        int columnIndex = cursor.getColumnIndex(DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD);
+        if(columnIndex != -1) {
+            foreignWord = cursor.getString(columnIndex);
+        }
 
         return foreignWord;
     }
