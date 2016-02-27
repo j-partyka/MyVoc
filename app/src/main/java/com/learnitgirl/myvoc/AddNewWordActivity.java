@@ -76,14 +76,14 @@ public class AddNewWordActivity extends AppCompatActivity {
         String foreignWord = String.valueOf(foreignEditText.getText());
         String nativeWord = String.valueOf(nativeEditText.getText());
 
-        if (foreignWord != dbHelper.getForeignWord(nativeWord) && nativeWord != dbHelper.getNativeWord(foreignWord)) {
+//        if (foreignWord != dbHelper.getForeignWord(nativeWord) && nativeWord != dbHelper.getNativeWord(foreignWord)) {
             if (dbHelper.insert(foreignWord, nativeWord, "NEW")) {
                 Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Not saved!", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(this, "The word already exists in a database", Toast.LENGTH_SHORT).show();
-        }
+//        } else {
+//            Toast.makeText(this, "The word already exists in a database", Toast.LENGTH_SHORT).show();
+//        }
     }
 }
