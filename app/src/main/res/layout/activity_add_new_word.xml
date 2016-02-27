@@ -5,7 +5,7 @@
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar" />
 
     <EditText
         android:id="@+id/foreignWordEditText"
@@ -15,8 +15,7 @@
         android:layout_alignEnd="@+id/nativeWordEditText"
         android:layout_marginBottom="44dp"
         android:hint="@string/foreign_word"
-        android:textAlignment="center"
-        />
+        android:textAlignment="center" />
 
     <EditText
         android:id="@+id/nativeWordEditText"
@@ -25,8 +24,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:hint="@string/native_word"
-        android:textAlignment="center"
-        />
+        android:textAlignment="center" />
 
     <Button
         android:id="@+id/saveBtn"
@@ -35,6 +33,6 @@
         android:layout_below="@+id/nativeWordEditText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="76dp"
-        android:text="@string/save_btn"
-        android:onClick="save"/>
+        android:onClick="save"
+        android:text="@string/save_btn" />
 </RelativeLayout>

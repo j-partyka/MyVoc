@@ -16,7 +16,7 @@
 
         <activity
             android:name=".AddNewWordActivity"
-            android:label="@string/title_activity_main"
+            android:label="@string/title_activity_add_new_word"
             android:theme="@style/MaterialTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
