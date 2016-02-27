@@ -66,7 +66,6 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(DictionaryContract.DictionaryEntry._ID,1 );
         values.put(DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD, foreignWord);
         values.put(DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD, nativeWord);
         values.put(DictionaryContract.DictionaryEntry.COLUMN_NAME_KNOWLEDGE, knowledge);

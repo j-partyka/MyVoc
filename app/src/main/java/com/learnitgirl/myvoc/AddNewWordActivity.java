@@ -32,10 +32,10 @@ public class AddNewWordActivity extends AppCompatActivity {
 
         EditText nativeEditText = (EditText) findViewById(R.id.nativeWordEditText);
 
-        if(v == foreignEditText){
+        if (v == foreignEditText) {
             foreignEditText.setHint("");
-        }else if(v == nativeEditText);
-            nativeEditText.setHint("");
+        } else if (v == nativeEditText) ;
+        nativeEditText.setHint("");
     }
 
     @Override
@@ -68,7 +68,7 @@ public class AddNewWordActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void save(View v){
+    public void save(View v) {
         EditText foreignEditText = (EditText) findViewById(R.id.foreignWordEditText);
 
         EditText nativeEditText = (EditText) findViewById(R.id.nativeWordEditText);
@@ -76,14 +76,14 @@ public class AddNewWordActivity extends AppCompatActivity {
         String foreignWord = String.valueOf(foreignEditText.getText());
         String nativeWord = String.valueOf(nativeEditText.getText());
 
-//        if(foreignWord != dbHelper.getForeignWord(nativeWord))
-
-       if (dbHelper.insert(foreignWord, nativeWord, "NEW")){
-           Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
-       }else{
-           Toast.makeText(this, "Not saved!", Toast.LENGTH_SHORT).show();
-       };
-
+        if (foreignWord != dbHelper.getForeignWord(nativeWord) && nativeWord != dbHelper.getNativeWord(foreignWord)) {
+            if (dbHelper.insert(foreignWord, nativeWord, "NEW")) {
+                Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Not saved!", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "The word already exists in a database", Toast.LENGTH_SHORT).show();
+        }
     }
-
 }
