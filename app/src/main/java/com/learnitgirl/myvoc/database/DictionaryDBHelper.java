@@ -34,6 +34,7 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
 
     /**
      * Create table in database
+     *
      * @param db
      */
     @Override
@@ -44,6 +45,7 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
 
     /**
      * Upgrades table in database
+     *
      * @param db
      * @param oldVersion
      * @param newVersion
@@ -57,6 +59,7 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
 
     /**
      * Insert values to databaseg
+     *
      * @param foreignWord
      * @param nativeWord
      * @param knowledge
@@ -90,7 +93,7 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         String[] selectionArgs = {DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD, nativeWord};
         Cursor cursor = db.rawQuery(
                 "SELECT " + DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD +
-                        " FROM" + DictionaryContract.DictionaryEntry.TABLE_NAME +
+                        " FROM " + DictionaryContract.DictionaryEntry.TABLE_NAME +
                         " WHERE ? = ?", selectionArgs);
 
 
