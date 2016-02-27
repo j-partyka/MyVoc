@@ -24,4 +24,5 @@
     <string name="action_dictionary">Dictionary</string>
     <string name="action_learn">Learn</string>
     <string name="title_activity_add_new_word">Add New Word</string>
+    <string name="title_activity_dictionary">Dictionary</string>
 </resources>

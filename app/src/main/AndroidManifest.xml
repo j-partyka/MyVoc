@@ -13,7 +13,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme">
-
         <activity
             android:name=".AddNewWordActivity"
             android:label="@string/title_activity_add_new_word"
@@ -23,6 +22,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".DictionaryActivity"
+            android:label="@string/title_activity_dictionary"
+            android:parentActivityName=".AddNewWordActivity"
+            android:theme="@style/MaterialTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.learnitgirl.myvoc.AddNewWordActivity" />
         </activity>
     </application>
 

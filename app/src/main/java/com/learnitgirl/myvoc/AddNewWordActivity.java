@@ -1,5 +1,6 @@
 package com.learnitgirl.myvoc;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,7 +24,7 @@ public class AddNewWordActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle("Add New Word");
+        getSupportActionBar().setTitle(R.string.title_activity_add_new_word);
 
     }
 
@@ -46,7 +47,8 @@ public class AddNewWordActivity extends AppCompatActivity {
                 msg = "New Word";
                 break;
             case R.id.action_dictionary:
-                msg = "Dictionary";
+                Intent intent = new Intent(this, DictionaryActivity.class);
+                startActivity(intent);
                 break;
             case R.id.action_settings:
                 msg = "Settings";
