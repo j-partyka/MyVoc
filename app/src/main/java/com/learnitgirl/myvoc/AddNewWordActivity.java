@@ -9,9 +9,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.learnitgirl.myvoc.database.DictionaryDBHelper;
+
 public class AddNewWordActivity extends AppCompatActivity {
 
-//    private EditText foreignEditText = (EditText) findViewById(R.id.foreignWordEditText);
+    DictionaryDBHelper dbHelper = new DictionaryDBHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,5 +68,22 @@ public class AddNewWordActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void save(View v){
+        EditText foreignEditText = (EditText) findViewById(R.id.foreignWordEditText);
+
+        EditText nativeEditText = (EditText) findViewById(R.id.nativeWordEditText);
+
+        String foreignWord = String.valueOf(foreignEditText.getText());
+        String nativeWord = String.valueOf(nativeEditText.getText());
+
+//        if(foreignWord != dbHelper.getForeignWord(nativeWord))
+
+       if (dbHelper.insert(foreignWord, nativeWord, "NEW")){
+           Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
+       }else{
+           Toast.makeText(this, "Not saved!", Toast.LENGTH_SHORT).show();
+       };
+
+    }
 
 }
