@@ -82,10 +82,6 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
     public String getForeignWord(String nativeWord) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String[] projection = {
-                DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD
-        };
-
         String[] selectionArgs = {DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD, nativeWord};
         Cursor cursor = db.rawQuery(
                 "SELECT " + DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD +
@@ -105,18 +101,18 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
     public String getNativeWord(String foreignWord) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String[] projection = {
-                DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD
-        };
-
         String[] selectionArgs = {DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD, foreignWord};
         Cursor cursor = db.rawQuery(
                 "SELECT " + DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD +
-                        " FROM" + DictionaryContract.DictionaryEntry.TABLE_NAME +
+                        " FROM " + DictionaryContract.DictionaryEntry.TABLE_NAME +
                         " WHERE ? = ?", selectionArgs);
 
         cursor.moveToFirst();
-        String nativeWord = cursor.getString(cursor.getColumnIndex(DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD));
+        String nativeWord = "";
+        int columnIndex = cursor.getColumnIndex(DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD);
+        if(columnIndex != -1) {
+            nativeWord = cursor.getString(columnIndex);
+        }
 
         return nativeWord;
     }
