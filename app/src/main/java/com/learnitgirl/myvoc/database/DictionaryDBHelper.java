@@ -31,7 +31,6 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-
     /**
      * Create table in database
      *
@@ -41,7 +40,6 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_ENTRIES);
     }
-
 
     /**
      * Upgrades table in database
@@ -55,7 +53,6 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_DELETE_ENTRIES);
         onCreate(db);
     }
-
 
     /**
      * Insert values to databaseg
@@ -89,13 +86,11 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
                 DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD
         };
 
-
         String[] selectionArgs = {DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD, nativeWord};
         Cursor cursor = db.rawQuery(
                 "SELECT " + DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD +
                         " FROM " + DictionaryContract.DictionaryEntry.TABLE_NAME +
                         " WHERE ? = ?", selectionArgs);
-
 
         cursor.moveToFirst();
         String foreignWord = cursor.getString(cursor.getColumnIndex(DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD));
@@ -110,19 +105,15 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
                 DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD
         };
 
-
         String[] selectionArgs = {DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD, foreignWord};
         Cursor cursor = db.rawQuery(
                 "SELECT " + DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD +
                         " FROM" + DictionaryContract.DictionaryEntry.TABLE_NAME +
                         " WHERE ? = ?", selectionArgs);
 
-
         cursor.moveToFirst();
         String nativeWord = cursor.getString(cursor.getColumnIndex(DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD));
 
         return nativeWord;
-
     }
-
 }

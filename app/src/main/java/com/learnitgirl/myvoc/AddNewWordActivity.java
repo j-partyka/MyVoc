@@ -27,16 +27,16 @@ public class AddNewWordActivity extends AppCompatActivity {
 
     }
 
-    public void disableHint(View v) {
-        EditText foreignEditText = (EditText) findViewById(R.id.foreignWordEditText);
-
-        EditText nativeEditText = (EditText) findViewById(R.id.nativeWordEditText);
-
-        if (v == foreignEditText) {
-            foreignEditText.setHint("");
-        } else if (v == nativeEditText) ;
-        nativeEditText.setHint("");
-    }
+//    public void disableHint(View v) {
+//        EditText foreignEditText = (EditText) findViewById(R.id.foreignWordEditText);
+//
+//        EditText nativeEditText = (EditText) findViewById(R.id.nativeWordEditText);
+//
+//        if (v == foreignEditText) {
+//            foreignEditText.setHint("");
+//        } else if (v == nativeEditText) ;
+//        nativeEditText.setHint("");
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

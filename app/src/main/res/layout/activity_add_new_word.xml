@@ -16,7 +16,7 @@
         android:layout_marginBottom="44dp"
         android:hint="@string/foreign_word"
         android:textAlignment="center"
-        android:onClick="disableHint"/>
+        />
 
     <EditText
         android:id="@+id/nativeWordEditText"
@@ -26,7 +26,7 @@
         android:layout_centerVertical="true"
         android:hint="@string/native_word"
         android:textAlignment="center"
-        android:onClick="disableHint"/>
+        />
 
     <Button
         android:id="@+id/saveBtn"
