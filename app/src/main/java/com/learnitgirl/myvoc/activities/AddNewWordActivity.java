@@ -1,4 +1,4 @@
-package com.learnitgirl.myvoc;
+package com.learnitgirl.myvoc.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.learnitgirl.myvoc.R;
 import com.learnitgirl.myvoc.database.DictionaryDBHelper;
 
 public class AddNewWordActivity extends AppCompatActivity {

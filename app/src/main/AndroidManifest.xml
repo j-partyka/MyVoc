@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme">
         <activity
-            android:name=".AddNewWordActivity"
+            android:name=".activities.AddNewWordActivity"
             android:label="@string/title_activity_add_new_word"
             android:theme="@style/MaterialTheme">
             <intent-filter>
@@ -24,13 +24,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DictionaryActivity"
+            android:name=".activities.DictionaryActivity"
             android:label="@string/title_activity_dictionary"
-            android:parentActivityName=".AddNewWordActivity"
+            android:parentActivityName=".activities.AddNewWordActivity"
             android:theme="@style/MaterialTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.learnitgirl.myvoc.AddNewWordActivity" />
+                android:value=".activities.AddNewWordActivity" />
         </activity>
     </application>
 

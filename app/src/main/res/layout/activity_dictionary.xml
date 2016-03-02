@@ -8,9 +8,10 @@
         layout="@layout/toolbar" />
 
     <ListView
+        android:id="@+id/dictionary_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/dictionary_listview">
-    </ListView>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"></ListView>
 
 </RelativeLayout>
