@@ -57,7 +57,7 @@ public class DictionaryActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(DictionaryActivity.this, position + "clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DictionaryActivity.this, position+1 + "clicked", Toast.LENGTH_SHORT).show();
             }
         });
     }
