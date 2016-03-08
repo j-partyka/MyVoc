@@ -8,24 +8,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.learnitgirl.myvoc.R;
 import com.learnitgirl.myvoc.database.DictionaryDBHelper;
 
-public class AddNewWordActivity extends AppCompatActivity {
+public class LearnActivity extends AppCompatActivity {
 
     DictionaryDBHelper dbHelper = new DictionaryDBHelper(this);
-
+    TextView shownWord;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_new_word);
-
+        setContentView(R.layout.activity_learn);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle(R.string.title_activity_add_new_word);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+         shownWord= (TextView) findViewById(R.id.shownWordTextView);
+
+        shownWord.setText(dbHelper.getForeignWordById("0"));
 
     }
 
@@ -63,25 +67,19 @@ public class AddNewWordActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void save(View v) {
-        EditText foreignEditText = (EditText) findViewById(R.id.foreignWordEditText);
 
-        EditText nativeEditText = (EditText) findViewById(R.id.nativeWordEditText);
+    public void submitWord(View w){
 
-        String foreignWord = String.valueOf(foreignEditText.getText());
-        String nativeWord = String.valueOf(nativeEditText.getText());
 
-        if (foreignWord.equals(dbHelper.getForeignWord(nativeWord)) && nativeWord.equals(dbHelper.getNativeWord(foreignWord))) {
-            Toast.makeText(this, "The word already exists in a database", Toast.LENGTH_SHORT).show();
-        } else {
-            if (dbHelper.insert(foreignWord, nativeWord, "NEW")) {
-                Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Not saved!", Toast.LENGTH_SHORT).show();
-            }
+        EditText guessWord = (EditText) findViewById(R.id.guessWordEditText);
+
+
+
+        if(dbHelper.getNativeWord(shownWord.getText().toString()) == guessWord.getText().toString()){
+
+
         }
 
-        foreignEditText.setText("");
-        nativeEditText.setText("");
+
     }
 }

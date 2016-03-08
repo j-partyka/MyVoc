@@ -32,6 +32,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.AddNewWordActivity" />
         </activity>
+        <activity
+            android:name=".activities.LearnActivity"
+            android:label="@string/title_activity_learn"
+            android:parentActivityName=".activities.AddNewWordActivity"
+            android:theme="@style/MaterialTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.learnitgirl.myvoc.activities.AddNewWordActivity" />
+        </activity>
     </application>
 
 </manifest>

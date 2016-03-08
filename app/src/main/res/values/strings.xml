@@ -25,4 +25,7 @@
     <string name="action_learn">Learn</string>
     <string name="title_activity_add_new_word">Add New Word</string>
     <string name="title_activity_dictionary">Dictionary</string>
+    <string name="title_activity_learn">LearnActivity</string>
+    <string name="submit_learn_activity">Submit</string>
+    <string name="translation_learn_activity">Type a translation</string>
 </resources>

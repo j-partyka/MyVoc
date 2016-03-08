@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import static com.learnitgirl.myvoc.database.DictionaryContract.*;
+
 /**
  * Created by joanna on 26.02.16.
  */
@@ -18,14 +20,14 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + DictionaryContract.DictionaryEntry.TABLE_NAME + " (" +
-                    DictionaryContract.DictionaryEntry._ID + " INTEGER PRIMARY KEY," +
-                    DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD + TEXT_TYPE + COMMA_SEP +
-                    DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD + TEXT_TYPE + COMMA_SEP +
-                    DictionaryContract.DictionaryEntry.COLUMN_NAME_KNOWLEDGE + TEXT_TYPE + " )";
+            "CREATE TABLE " + DictionaryEntry.TABLE_NAME + " (" +
+                    DictionaryEntry._ID + " INTEGER PRIMARY KEY," +
+                    DictionaryEntry.COLUMN_NAME_FOREIGN_WORD + TEXT_TYPE + COMMA_SEP +
+                    DictionaryEntry.COLUMN_NAME_NATIVE_WORD + TEXT_TYPE + COMMA_SEP +
+                    DictionaryEntry.COLUMN_NAME_KNOWLEDGE + TEXT_TYPE + " )";
 
     private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + DictionaryContract.DictionaryEntry.TABLE_NAME;
+            "DROP TABLE IF EXISTS " + DictionaryEntry.TABLE_NAME;
 
     public DictionaryDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -66,11 +68,11 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD, foreignWord);
-        values.put(DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD, nativeWord);
-        values.put(DictionaryContract.DictionaryEntry.COLUMN_NAME_KNOWLEDGE, knowledge);
+        values.put(DictionaryEntry.COLUMN_NAME_FOREIGN_WORD, foreignWord);
+        values.put(DictionaryEntry.COLUMN_NAME_NATIVE_WORD, nativeWord);
+        values.put(DictionaryEntry.COLUMN_NAME_KNOWLEDGE, knowledge);
 
-        long newRowId = db.insert(DictionaryContract.DictionaryEntry.TABLE_NAME, null, values);
+        long newRowId = db.insert(DictionaryEntry.TABLE_NAME, null, values);
 
         if (newRowId != -1)
             return true;
@@ -82,15 +84,15 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
     public String getForeignWord(String nativeWord) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String[] selectionArgs = {DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD, nativeWord};
+        String[] selectionArgs = {DictionaryEntry.COLUMN_NAME_NATIVE_WORD, nativeWord};
         Cursor cursor = db.rawQuery(
-                "SELECT " + DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD +
-                        " FROM " + DictionaryContract.DictionaryEntry.TABLE_NAME +
+                "SELECT " + DictionaryEntry.COLUMN_NAME_FOREIGN_WORD +
+                        " FROM " + DictionaryEntry.TABLE_NAME +
                         " WHERE ? = ?", selectionArgs);
 
         cursor.moveToFirst();
         String foreignWord = "";
-        int columnIndex = cursor.getColumnIndex(DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD);
+        int columnIndex = cursor.getColumnIndex(DictionaryEntry.COLUMN_NAME_NATIVE_WORD);
         if(columnIndex != -1) {
             foreignWord = cursor.getString(columnIndex);
         }
@@ -101,19 +103,30 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
     public String getNativeWord(String foreignWord) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String[] selectionArgs = {DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD, foreignWord};
+        String[] selectionArgs = {DictionaryEntry.COLUMN_NAME_FOREIGN_WORD, foreignWord};
         Cursor cursor = db.rawQuery(
-                "SELECT " + DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD +
-                        " FROM " + DictionaryContract.DictionaryEntry.TABLE_NAME +
+                "SELECT " + DictionaryEntry.COLUMN_NAME_NATIVE_WORD +
+                        " FROM " + DictionaryEntry.TABLE_NAME +
                         " WHERE ? = ?", selectionArgs);
 
         cursor.moveToFirst();
         String nativeWord = "";
-        int columnIndex = cursor.getColumnIndex(DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD);
+        int columnIndex = cursor.getColumnIndex(DictionaryEntry.COLUMN_NAME_FOREIGN_WORD);
         if(columnIndex != -1) {
             nativeWord = cursor.getString(columnIndex);
         }
 
         return nativeWord;
+    }
+
+    public String getForeignWordById(String id){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] selectionArgs = {DictionaryEntry._ID, id};
+
+        Cursor cursor = db.rawQuery(
+                "SELECT " + DictionaryEntry._ID + " FROM " + DictionaryEntry.TABLE_NAME + " WHERE ? = ?", selectionArgs);
+
+        return cursor.getString(Integer.parseInt(DictionaryEntry.COLUMN_NAME_FOREIGN_WORD));
     }
 }

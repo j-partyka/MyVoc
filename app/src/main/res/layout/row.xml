@@ -7,20 +7,24 @@
     <TextView
         android:id="@+id/foreignWordTextView"
         android:layout_width="match_parent"
-        android:layout_height="15dp"
+        android:layout_height="40dp"
         android:layout_weight="1"
+        android:textAlignment="center"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/nativeWordTextView"
         android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:layout_weight="1"/>
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        />
 
     <TextView
         android:id="@+id/knowledgeTextView"
         android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:layout_weight="1"/>
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:textAlignment="center" />
 
 </LinearLayout>
