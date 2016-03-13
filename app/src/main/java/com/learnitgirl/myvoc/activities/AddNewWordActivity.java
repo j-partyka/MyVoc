@@ -58,8 +58,6 @@ public class AddNewWordActivity extends AppCompatActivity {
                 msg = "Settings";
                 break;
         }
-
-        Toast.makeText(this, msg + " clicked!", Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
     }
 

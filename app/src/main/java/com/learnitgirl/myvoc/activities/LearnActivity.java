@@ -1,23 +1,31 @@
 package com.learnitgirl.myvoc.activities;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.learnitgirl.myvoc.R;
+import com.learnitgirl.myvoc.database.DictionaryContract;
 import com.learnitgirl.myvoc.database.DictionaryDBHelper;
 
 public class LearnActivity extends AppCompatActivity {
 
-    DictionaryDBHelper dbHelper = new DictionaryDBHelper(this);
+    private static final String TAG = "LearnActivity";
+    DictionaryDBHelper dbHelper;
     TextView shownWord;
+    Button submitBtn;
+    EditText guessWord;
+    Cursor cursor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,12 +33,20 @@ public class LearnActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-         shownWord= (TextView) findViewById(R.id.shownWordTextView);
+        dbHelper = new DictionaryDBHelper(this);
 
-        shownWord.setText(dbHelper.getForeignWordById("0"));
+        shownWord = (TextView) findViewById(R.id.shownWordTextView);
+        submitBtn = (Button) findViewById(R.id.submitBtn);
+        guessWord = (EditText) findViewById(R.id.guessWordEditText);
 
+        cursor = dbHelper.getRow("2");
+        cursor.move(1);
+
+        String foreignWord = cursor.getString(cursor.getColumnIndex(DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD));
+
+        shownWord.setText(foreignWord);
     }
 
     @Override
@@ -62,24 +78,23 @@ public class LearnActivity extends AppCompatActivity {
                 msg = "Settings";
                 break;
         }
-
-        Toast.makeText(this, msg + " clicked!", Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
     }
 
+    public void submitWord(View w) {
+        String nativeWord = cursor.getString(cursor.getColumnIndex(DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD));
 
-    public void submitWord(View w){
+        if (guessWord.getText().toString().equals(nativeWord)) {
+            Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+            cursor.move(1);
 
+            guessWord.setText("");
+            String foreignWord = cursor.getString(cursor.getColumnIndex(DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD));
 
-        EditText guessWord = (EditText) findViewById(R.id.guessWordEditText);
-
-
-
-        if(dbHelper.getNativeWord(shownWord.getText().toString()) == guessWord.getText().toString()){
-
-
+            shownWord.setText(foreignWord);
+        } else {
+            Toast.makeText(this, "Try again!", Toast.LENGTH_SHORT).show();
+            guessWord.setText("");
         }
-
-
     }
 }

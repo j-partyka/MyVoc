@@ -42,7 +42,8 @@
         android:id="@+id/submitBtn"
         android:layout_below="@+id/guessWordEditText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="82dp" />
+        android:layout_marginTop="82dp"
+        android:onClick="submitWord"/>
 
 
 </RelativeLayout>

@@ -93,7 +93,7 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         String foreignWord = "";
         int columnIndex = cursor.getColumnIndex(DictionaryEntry.COLUMN_NAME_NATIVE_WORD);
-        if(columnIndex != -1) {
+        if (columnIndex != -1) {
             foreignWord = cursor.getString(columnIndex);
         }
 
@@ -112,14 +112,14 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         String nativeWord = "";
         int columnIndex = cursor.getColumnIndex(DictionaryEntry.COLUMN_NAME_FOREIGN_WORD);
-        if(columnIndex != -1) {
+        if (columnIndex != -1) {
             nativeWord = cursor.getString(columnIndex);
         }
 
         return nativeWord;
     }
 
-    public String getForeignWordById(String id){
+    public String getForeignWordById(String id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String[] selectionArgs = {DictionaryEntry._ID, id};
@@ -128,5 +128,16 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
                 "SELECT " + DictionaryEntry._ID + " FROM " + DictionaryEntry.TABLE_NAME + " WHERE ? = ?", selectionArgs);
 
         return cursor.getString(Integer.parseInt(DictionaryEntry.COLUMN_NAME_FOREIGN_WORD));
+    }
+
+    public Cursor getRow(String id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] args = {};
+        Cursor cursor = db.rawQuery(
+                "select * from " + DictionaryEntry.TABLE_NAME +
+                        " where " + DictionaryEntry._ID + "=" + id, args);
+
+        return cursor;
     }
 }

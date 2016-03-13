@@ -32,14 +32,14 @@ public class DictionaryActivity extends AppCompatActivity {
 
         ListView listView = (ListView) findViewById(R.id.dictionary_listview);
 
-        String[] from = {DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD,
+        String[] from = {DictionaryContract.DictionaryEntry._ID, DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD,
                 DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD,
                 DictionaryContract.DictionaryEntry.COLUMN_NAME_KNOWLEDGE};
 
         DictionaryDBHelper dbHelper = new DictionaryDBHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        int[] toViews = {R.id.foreignWordTextView, R.id.nativeWordTextView, R.id.knowledgeTextView};
+        int[] toViews = {R.id.wordIDTextView, R.id.foreignWordTextView, R.id.nativeWordTextView, R.id.knowledgeTextView};
 
         String[] args = {};
 
@@ -86,8 +86,6 @@ public class DictionaryActivity extends AppCompatActivity {
                 msg = "Settings";
                 break;
         }
-
-        Toast.makeText(this, msg + " clicked!", Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
     }
 }
