@@ -15,12 +15,12 @@ import android.widget.Toast;
 
 import com.learnitgirl.myvoc.R;
 import com.learnitgirl.myvoc.database.DictionaryContract;
-import com.learnitgirl.myvoc.database.DictionaryDBHelper;
+import com.learnitgirl.myvoc.database.DictionaryDatabase;
 
 public class LearnActivity extends AppCompatActivity {
 
     private static final String TAG = "LearnActivity";
-    DictionaryDBHelper dbHelper;
+    DictionaryDatabase db;
     TextView shownWord;
     Button submitBtn;
     EditText guessWord;
@@ -35,17 +35,20 @@ public class LearnActivity extends AppCompatActivity {
 
        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        dbHelper = new DictionaryDBHelper(this);
+        db = new DictionaryDatabase(this);
+
+        db.open();
 
         shownWord = (TextView) findViewById(R.id.shownWordTextView);
         submitBtn = (Button) findViewById(R.id.submitBtn);
         guessWord = (EditText) findViewById(R.id.guessWordEditText);
 
-        cursor = dbHelper.getRow("2");
-        cursor.move(1);
+        //cursor = db.getWords();
+        //cursor.move(1);
 
-        String foreignWord = cursor.getString(cursor.getColumnIndex(DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD));
+        //String foreignWord = cursor.getString(cursor.getColumnIndex(DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD));
 
+        String foreignWord = db.getRandomForeignWord();
         shownWord.setText(foreignWord);
     }
 

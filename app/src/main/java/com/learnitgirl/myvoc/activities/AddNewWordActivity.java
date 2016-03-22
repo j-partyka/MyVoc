@@ -11,11 +11,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.learnitgirl.myvoc.R;
-import com.learnitgirl.myvoc.database.DictionaryDBHelper;
+import com.learnitgirl.myvoc.database.DictionaryDatabase;
+import com.learnitgirl.myvoc.utils.Word;
 
 public class AddNewWordActivity extends AppCompatActivity {
 
-    DictionaryDBHelper dbHelper = new DictionaryDBHelper(this);
+    DictionaryDatabase db = new DictionaryDatabase(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class AddNewWordActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(R.string.title_activity_add_new_word);
 
+        db.open();
     }
 
     @Override
@@ -69,10 +71,12 @@ public class AddNewWordActivity extends AppCompatActivity {
         String foreignWord = String.valueOf(foreignEditText.getText());
         String nativeWord = String.valueOf(nativeEditText.getText());
 
-        if (foreignWord.equals(dbHelper.getForeignWord(nativeWord)) && nativeWord.equals(dbHelper.getNativeWord(foreignWord))) {
+        Word word = new Word(foreignWord, nativeWord, 0);
+
+        if (foreignWord.equals(db.getForeignWord(nativeWord)) && nativeWord.equals(db.getNativeWord(foreignWord))) {
             Toast.makeText(this, "The word already exists in a database", Toast.LENGTH_SHORT).show();
         } else {
-            if (dbHelper.insert(foreignWord, nativeWord, "NEW")) {
+            if (db.insertWord(word)) {
                 Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Not saved!", Toast.LENGTH_SHORT).show();

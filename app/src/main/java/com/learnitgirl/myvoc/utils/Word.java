@@ -6,13 +6,19 @@ package com.learnitgirl.myvoc.utils;
 public class Word {
     private String nativeWord;
     private String foreignWord;
-    private int knowledge;
+    private int knowledge = 0;
+
+    public Word(String nativeWord, String foreignWord, int knowledge) {
+        this.nativeWord = nativeWord;
+        this.foreignWord = foreignWord;
+        this.knowledge = knowledge;
+    }
 
     public String getNativeWord() {
         return nativeWord;
     }
 
-    public String getForeign() {
+    public String getForeignWord() {
         return foreignWord;
     }
 
@@ -24,13 +30,12 @@ public class Word {
         this.nativeWord = nativeWord;
     }
 
-    public void setForeign(String foreignWord) {
+    public void setForeignWord(String foreignWord) {
         this.foreignWord = foreignWord;
     }
 
     public void setKnowledge(int knowledge) {
         this.knowledge = knowledge;
     }
-
 
 }
