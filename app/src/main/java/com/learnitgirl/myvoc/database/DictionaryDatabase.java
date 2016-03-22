@@ -14,6 +14,7 @@ import java.util.Random;
  */
 public class DictionaryDatabase {
 
+    private static final String TAG = DictionaryDatabase.class.getCanonicalName();
     private DictionaryDBHelper dbHelper;
     private Context context;
     private SQLiteDatabase db;
@@ -50,17 +51,17 @@ public class DictionaryDatabase {
 
     public Cursor getWords() {
 
-        String[] args = {};
+        String[] whereArgs = new String[]{};
         Cursor cursor = db.rawQuery(
-                "select * from " + DictionaryContract.DictionaryEntry.TABLE_NAME, args);
+                "select * from " + DictionaryContract.DictionaryEntry.TABLE_NAME, whereArgs);
 
         return cursor;
     }
 
     public boolean deleteWord(String id) {
 
-        String[] args = {id};
-        if (db.delete(DictionaryContract.DictionaryEntry.TABLE_NAME, DictionaryContract.DictionaryEntry._ID + " = ?", args) > 0) {
+        String[] whereArgs = {id};
+        if (db.delete(DictionaryContract.DictionaryEntry.TABLE_NAME, DictionaryContract.DictionaryEntry._ID + " = ?", whereArgs) > 0) {
             return true;
         } else {
             return false;
@@ -68,11 +69,11 @@ public class DictionaryDatabase {
     }
 
     public String getNativeWord(String foreignWord) {
-        String[] selectionArgs = {DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD, foreignWord};
+        String[] whereArgs = new String[]{DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD, foreignWord};
         Cursor cursor = db.rawQuery(
                 "SELECT " + DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD +
                         " FROM " + DictionaryContract.DictionaryEntry.TABLE_NAME +
-                        " WHERE ? = ?", selectionArgs);
+                        " WHERE ? = ?", whereArgs);
 
         cursor.moveToFirst();
         String nativeWord = "";
@@ -86,11 +87,11 @@ public class DictionaryDatabase {
 
     public String getForeignWord(String nativeWord) {
 
-        String[] selectionArgs = {DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD, nativeWord};
+        String[] whereArgs = new String[]{DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD, nativeWord};
         Cursor cursor = db.rawQuery(
                 "SELECT " + DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD +
                         " FROM " + DictionaryContract.DictionaryEntry.TABLE_NAME +
-                        " WHERE ? = ?", selectionArgs);
+                        " WHERE ? = ?", whereArgs);
 
         cursor.moveToFirst();
         String foreignWord = "";
@@ -102,22 +103,36 @@ public class DictionaryDatabase {
         return foreignWord;
     }
 
-    public String getRandomForeignWord(){
+    public String getRandomForeignWord() {
         Random random = new Random();
         int randomNum = random.nextInt(10);
-        String[] selectionArgs = {DictionaryContract.DictionaryEntry._ID, Integer.toString(randomNum)};
-        Cursor cursor = db.rawQuery(
-                "SELECT " + DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD +
-                        " FROM " + DictionaryContract.DictionaryEntry.TABLE_NAME +
-                        " WHERE ? = ?", selectionArgs);
+        String[] columns = new String[]{DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD};
+        String whereClause = DictionaryContract.DictionaryEntry._ID + " = ? ";
+        String[] whereArgs = new String[]{Integer.toString(randomNum)};
+        Cursor cursor = db.query(DictionaryContract.DictionaryEntry.TABLE_NAME, columns, whereClause, whereArgs, null, null, null);
 
-        cursor.moveToNext();
-        String foreignWord = "";
-        int columnIndex = cursor.getColumnIndex(DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD);
-        if (columnIndex != -1) {
-            foreignWord = cursor.getString(columnIndex);
+        String foreignWord = "Column Index -1";
+
+        if (cursor != null && cursor.moveToFirst()) {
+            foreignWord = cursor.getString(cursor.getColumnIndexOrThrow(DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD));
         }
         return foreignWord;
+    }
+
+    public boolean checkForeignWord(String shownWord, String guessWord) {
+        boolean result = false;
+        String[] columns = new String[]{DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD};
+        String whereClause = DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD + " = ?";
+        String[] whereArgs = new String[]{shownWord};
+        Cursor cursor = db.query(DictionaryContract.DictionaryEntry.TABLE_NAME, columns, whereClause, whereArgs, null, null, null);
+        String correctWord = "";
+        if (cursor != null && cursor.moveToFirst()) {
+            correctWord = cursor.getString(cursor.getColumnIndexOrThrow(DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD));
+        }
+        if (guessWord.equals(correctWord)) {
+            result = true;
+        }
+        return result;
     }
 
 }
