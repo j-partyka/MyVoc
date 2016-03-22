@@ -57,7 +57,7 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Insert values to databaseg
+     * Insert values to database
      *
      * @param foreignWord
      * @param nativeWord
@@ -135,8 +135,8 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
 
         String[] args = {};
         Cursor cursor = db.rawQuery(
-                "select * from " + DictionaryEntry.TABLE_NAME +
-                        " where " + DictionaryEntry._ID + "=" + id, args);
+                "select * from " + DictionaryEntry.TABLE_NAME, args);
+       //                 " where " + DictionaryEntry._ID + "=" + id, args);
 
         return cursor;
     }
