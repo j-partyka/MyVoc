@@ -90,7 +90,7 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public SimpleCursorAdapter getWordsAdapter(Context context){
+    public SimpleCursorAdapter getWordsAdapter(Context context) {
         Cursor cursor = getWords();
         cursor.moveToFirst();
         String[] from = {DictionaryContract.DictionaryEntry._ID, DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD,

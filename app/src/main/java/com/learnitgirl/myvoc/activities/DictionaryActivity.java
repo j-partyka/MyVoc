@@ -24,8 +24,6 @@ public class DictionaryActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle(R.string.title_activity_dictionary);
-
         ListView listView = (ListView) findViewById(R.id.dictionary_listview);
         DictionaryDBHelper dbHelper = new DictionaryDBHelper(this);
 
@@ -49,25 +47,23 @@ public class DictionaryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         Intent intent;
-        String msg = "";
 
         switch (item.getItemId()) {
             case R.id.action_learn:
                 intent = new Intent(this, LearnActivity.class);
-                startActivity(intent);
                 break;
             case R.id.action_new_word:
                 intent = new Intent(this, AddNewWordActivity.class);
-                startActivity(intent);
                 break;
             case R.id.action_dictionary:
                 intent = new Intent(this, DictionaryActivity.class);
-                startActivity(intent);
                 break;
             case R.id.action_settings:
-                msg = "Settings";
+            default:
+                intent = new Intent(this, this.getClass());
                 break;
         }
+        startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
 }

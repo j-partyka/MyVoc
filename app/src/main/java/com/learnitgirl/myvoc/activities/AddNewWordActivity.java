@@ -25,13 +25,10 @@ public class AddNewWordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_word);
         setTitle(R.string.title_activity_add_new_word);
-
-        dbHelper = new DictionaryDBHelper(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle(R.string.title_activity_add_new_word);
-
+        dbHelper = new DictionaryDBHelper(this);
         hideSoftKeyboard();
     }
 
@@ -45,25 +42,23 @@ public class AddNewWordActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         Intent intent;
-        String msg = "";
 
         switch (item.getItemId()) {
             case R.id.action_learn:
                 intent = new Intent(this, LearnActivity.class);
-                startActivity(intent);
                 break;
             case R.id.action_new_word:
                 intent = new Intent(this, AddNewWordActivity.class);
-                startActivity(intent);
                 break;
             case R.id.action_dictionary:
                 intent = new Intent(this, DictionaryActivity.class);
-                startActivity(intent);
                 break;
             case R.id.action_settings:
-                msg = "Settings";
+            default:
+                intent = new Intent(this, this.getClass());
                 break;
         }
+        startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
 
@@ -91,8 +86,8 @@ public class AddNewWordActivity extends AppCompatActivity {
         nativeEditText.setText("");
     }
 
-    private void hideSoftKeyboard(){
-        if(getCurrentFocus()!=null && getCurrentFocus() instanceof EditText){
+    private void hideSoftKeyboard() {
+        if (getCurrentFocus() != null && getCurrentFocus() instanceof EditText) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(this.findViewById(R.id.nativeWordEditText).getWindowToken(), 0);
         }
