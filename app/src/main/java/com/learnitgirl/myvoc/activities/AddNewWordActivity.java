@@ -13,26 +13,22 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.learnitgirl.myvoc.R;
-import com.learnitgirl.myvoc.database.DictionaryDatabase;
+import com.learnitgirl.myvoc.database.DictionaryDBHelper;
 import com.learnitgirl.myvoc.utils.Word;
 
 public class AddNewWordActivity extends AppCompatActivity {
 
-    DictionaryDatabase db = new DictionaryDatabase(this);
+    DictionaryDBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_word);
         setTitle(R.string.title_activity_add_new_word);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setTitle(R.string.title_activity_add_new_word);
-
-        db.open();
-
+        dbHelper = new DictionaryDBHelper(this);
         hideSoftKeyboard();
     }
 
@@ -46,25 +42,23 @@ public class AddNewWordActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         Intent intent;
-        String msg = "";
 
         switch (item.getItemId()) {
             case R.id.action_learn:
                 intent = new Intent(this, LearnActivity.class);
-                startActivity(intent);
                 break;
             case R.id.action_new_word:
                 intent = new Intent(this, AddNewWordActivity.class);
-                startActivity(intent);
                 break;
             case R.id.action_dictionary:
                 intent = new Intent(this, DictionaryActivity.class);
-                startActivity(intent);
                 break;
             case R.id.action_settings:
-                msg = "Settings";
+            default:
+                intent = new Intent(this, this.getClass());
                 break;
         }
+        startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
 
@@ -78,10 +72,10 @@ public class AddNewWordActivity extends AppCompatActivity {
 
         Word word = new Word(foreignWord, nativeWord, 0);
 
-        if (foreignWord.equals(db.getForeignWord(nativeWord)) && nativeWord.equals(db.getNativeWord(foreignWord))) {
+        if (foreignWord.equals(dbHelper.getForeignWord(nativeWord)) && nativeWord.equals(dbHelper.getNativeWord(foreignWord))) {
             Toast.makeText(this, "The word already exists in a database", Toast.LENGTH_SHORT).show();
         } else {
-            if (db.insertWord(word)) {
+            if (dbHelper.insertWord(word)) {
                 Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Not saved!", Toast.LENGTH_SHORT).show();
@@ -92,8 +86,8 @@ public class AddNewWordActivity extends AppCompatActivity {
         nativeEditText.setText("");
     }
 
-    private void hideSoftKeyboard(){
-        if(getCurrentFocus()!=null && getCurrentFocus() instanceof EditText){
+    private void hideSoftKeyboard() {
+        if (getCurrentFocus() != null && getCurrentFocus() instanceof EditText) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(this.findViewById(R.id.nativeWordEditText).getWindowToken(), 0);
         }
