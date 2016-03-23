@@ -1,5 +1,6 @@
 package com.learnitgirl.myvoc.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ public class AddNewWordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_word);
+        setTitle(R.string.title_activity_add_new_word);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -29,6 +32,8 @@ public class AddNewWordActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.title_activity_add_new_word);
 
         db.open();
+
+        hideSoftKeyboard();
     }
 
     @Override
@@ -85,5 +90,12 @@ public class AddNewWordActivity extends AppCompatActivity {
 
         foreignEditText.setText("");
         nativeEditText.setText("");
+    }
+
+    private void hideSoftKeyboard(){
+        if(getCurrentFocus()!=null && getCurrentFocus() instanceof EditText){
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(this.findViewById(R.id.nativeWordEditText).getWindowToken(), 0);
+        }
     }
 }
