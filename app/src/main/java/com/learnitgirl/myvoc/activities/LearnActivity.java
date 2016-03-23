@@ -13,12 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.learnitgirl.myvoc.R;
-import com.learnitgirl.myvoc.database.DictionaryDatabase;
+import com.learnitgirl.myvoc.database.DictionaryDBHelper;
 
 public class LearnActivity extends AppCompatActivity {
 
     private static final String TAG = "LearnActivity";
-    DictionaryDatabase db;
+    DictionaryDBHelper dbHelper;
     TextView shownWord;
     Button submitBtn;
     EditText guessWord;
@@ -32,17 +32,14 @@ public class LearnActivity extends AppCompatActivity {
 
         // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        db = new DictionaryDatabase(this);
-
-        db.open();
+        dbHelper = new DictionaryDBHelper(this);
 
         shownWord = (TextView) findViewById(R.id.shownWordTextView);
         submitBtn = (Button) findViewById(R.id.submitBtn);
         guessWord = (EditText) findViewById(R.id.guessWordEditText);
 
-        String foreignWord = db.getRandomForeignWord();
+        String foreignWord = dbHelper.getRandomForeignWord();
         shownWord.setText(foreignWord);
-        db.close();
     }
 
     @Override
@@ -78,17 +75,15 @@ public class LearnActivity extends AppCompatActivity {
     }
 
     public void submitWord(View w) {
-        db.open();
 
-        if (db.checkForeignWord(shownWord.getText().toString(), guessWord.getText().toString())) {
+        if (dbHelper.checkForeignWord(shownWord.getText().toString(), guessWord.getText().toString())) {
             Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
             guessWord.setText("");
-            shownWord.setText(db.getRandomForeignWord());
+            shownWord.setText(dbHelper.getRandomForeignWord());
 
         } else {
             Toast.makeText(this, "Try again!", Toast.LENGTH_SHORT).show();
             guessWord.setText("");
         }
-        db.close();
     }
 }
