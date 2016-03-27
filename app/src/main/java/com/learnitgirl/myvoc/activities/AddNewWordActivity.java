@@ -34,7 +34,7 @@ public class AddNewWordActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -67,8 +67,8 @@ public class AddNewWordActivity extends AppCompatActivity {
 
         EditText nativeEditText = (EditText) findViewById(R.id.nativeWordEditText);
 
-        String foreignWord = String.valueOf(foreignEditText.getText());
-        String nativeWord = String.valueOf(nativeEditText.getText());
+        String foreignWord = foreignEditText.getText().toString();
+        String nativeWord = nativeEditText.getText().toString();
 
         Word word = new Word(foreignWord, nativeWord, 0);
 

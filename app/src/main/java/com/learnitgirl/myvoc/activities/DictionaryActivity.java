@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,17 +31,12 @@ public class DictionaryActivity extends AppCompatActivity {
 
         listView.setAdapter(dbHelper.getWordsAdapter(this));
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(DictionaryActivity.this, position + 1 + "clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
+        registerForContextMenu(listView);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -65,5 +62,28 @@ public class DictionaryActivity extends AppCompatActivity {
         }
         startActivity(intent);
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.edit_word:
+                Toast.makeText(DictionaryActivity.this, "Edit clicked", Toast.LENGTH_SHORT).show();
+                //edit_word(info.id);
+                return true;
+            case R.id.delete_word:
+                Toast.makeText(DictionaryActivity.this, "Delete clicked", Toast.LENGTH_SHORT).show();
+                //delete_word(info.id);
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 }

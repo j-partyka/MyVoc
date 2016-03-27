@@ -28,4 +28,6 @@
     <string name="title_activity_learn">Learn</string>
     <string name="submit_learn_activity">Submit</string>
     <string name="translation_learn_activity">Type a translation</string>
+    <string name="edit_word">Edit</string>
+    <string name="delete_word">Delete</string>
 </resources>
