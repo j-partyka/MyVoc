@@ -18,6 +18,8 @@ import com.learnitgirl.myvoc.database.DictionaryDBHelper;
 
 public class DictionaryActivity extends AppCompatActivity {
 
+    DictionaryDBHelper dbHelper;
+    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,8 +28,8 @@ public class DictionaryActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ListView listView = (ListView) findViewById(R.id.dictionary_listview);
-        DictionaryDBHelper dbHelper = new DictionaryDBHelper(this);
+        listView = (ListView) findViewById(R.id.dictionary_listview);
+        dbHelper = new DictionaryDBHelper(this);
 
         listView.setAdapter(dbHelper.getWordsAdapter(this));
 
@@ -76,12 +78,13 @@ public class DictionaryActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
             case R.id.edit_word:
-                Toast.makeText(DictionaryActivity.this, "Edit clicked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DictionaryActivity.this, "Edit clicked ", Toast.LENGTH_SHORT).show();
+                //TODO: create dialog for edits
                 //edit_word(info.id);
                 return true;
             case R.id.delete_word:
-                Toast.makeText(DictionaryActivity.this, "Delete clicked", Toast.LENGTH_SHORT).show();
-                //delete_word(info.id);
+                dbHelper.deleteWord(String.valueOf(info.id));
+                //TODO: refresh the dictionary listView and update the words' IDs
             default:
                 return super.onContextItemSelected(item);
         }
