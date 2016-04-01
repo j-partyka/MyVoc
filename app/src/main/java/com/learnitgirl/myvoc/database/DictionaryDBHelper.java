@@ -102,17 +102,18 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         String foreignWord = "";
         int knowledge = 0;
         cursor.moveToFirst();
-        int columnIndex = cursor.getColumnIndex(DictionaryEntry.COLUMN_NAME_NATIVE_WORD);
+        int columnIndex = cursor.getColumnIndex(DictionaryEntry.COLUMN_NAME_FOREIGN_WORD);
         if (columnIndex != -1) {
-            nativeWord = cursor.getString(columnIndex);
-        }
-        int columnIndex2 = cursor.getColumnIndex(DictionaryEntry.COLUMN_NAME_FOREIGN_WORD);
-        if (columnIndex2 != -1) {
             foreignWord = cursor.getString(columnIndex);
         }
-        int columnIndex3 = cursor.getColumnIndex(DictionaryEntry.COLUMN_NAME_KNOWLEDGE);
-        if (columnIndex != -1) {
-            knowledge = cursor.getInt(columnIndex);
+        int columnIndex1 = cursor.getColumnIndex(DictionaryEntry.COLUMN_NAME_NATIVE_WORD);
+        if (columnIndex1 != -1) {
+            nativeWord = cursor.getString(columnIndex1);
+        }
+
+        int columnIndex2 = cursor.getColumnIndex(DictionaryEntry.COLUMN_NAME_KNOWLEDGE);
+        if (columnIndex2 != -1) {
+            knowledge = cursor.getInt(columnIndex2);
         }
         Word word = new Word(foreignWord, nativeWord, knowledge);
         return word;
@@ -219,10 +220,8 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         Log.i("TAG", word.getForeignWord());
         Log.i("TAG", word.getNativeWord());
         ContentValues values = new ContentValues();
-        values.put(DictionaryEntry.COLUMN_NAME_FOREIGN_WORD, word.getForeignWord());
-        values.put(DictionaryEntry.COLUMN_NAME_NATIVE_WORD, word.getNativeWord());
         values.put(DictionaryEntry.COLUMN_NAME_KNOWLEDGE, word.getKnowledge() + 1);
 
-        dbWrite.replace(DictionaryEntry.TABLE_NAME, null, values);
+        dbWrite.update(DictionaryEntry.TABLE_NAME, values, whereClause,whereArgs);
     }
 }
