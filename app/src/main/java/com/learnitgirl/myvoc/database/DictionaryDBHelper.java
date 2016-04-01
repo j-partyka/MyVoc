@@ -165,13 +165,12 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
                         " WHERE ? = ?", whereArgs);
 
         cursor.moveToFirst();
-        String nativeWord = "";
         int columnIndex = cursor.getColumnIndex(type);
         if (columnIndex != -1) {
-            nativeWord = cursor.getString(columnIndex);
+            word = cursor.getString(columnIndex);
         }
 
-        return nativeWord;
+        return word;
     }
 
     public String getRandomForeignWord() {
