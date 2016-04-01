@@ -20,6 +20,7 @@ public class DictionaryActivity extends AppCompatActivity {
 
     DictionaryDBHelper dbHelper;
     ListView listView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +85,7 @@ public class DictionaryActivity extends AppCompatActivity {
                 return true;
             case R.id.delete_word:
                 dbHelper.deleteWord(String.valueOf(info.id));
-                //TODO: refresh the dictionary listView and update the words' IDs
+                listView.setAdapter(dbHelper.getWordsAdapter(this));
             default:
                 return super.onContextItemSelected(item);
         }
