@@ -26,4 +26,5 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
 
     testCompile "org.robolectric:robolectric:3.0"
+    testCompile 'org.mockito:mockito-all:1.10.19'
 }
