@@ -73,6 +73,7 @@ public class LearnActivity extends AppCompatActivity {
 
         if (dbHelper.checkForeignWord(shownWord.getText().toString(), guessWord.getText().toString())) {
             Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+            dbHelper.increaseKnowledge(shownWord.getText().toString());
             guessWord.setText("");
             shownWord.setText(dbHelper.getRandomForeignWord());
 
