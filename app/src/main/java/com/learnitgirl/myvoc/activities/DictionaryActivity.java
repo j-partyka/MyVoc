@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +18,8 @@ import com.learnitgirl.myvoc.database.DictionaryDBHelper;
 
 public class DictionaryActivity extends AppCompatActivity {
 
+    DictionaryDBHelper dbHelper;
+    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,22 +28,17 @@ public class DictionaryActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ListView listView = (ListView) findViewById(R.id.dictionary_listview);
-        DictionaryDBHelper dbHelper = new DictionaryDBHelper(this);
+        listView = (ListView) findViewById(R.id.dictionary_listview);
+        dbHelper = new DictionaryDBHelper(this);
 
         listView.setAdapter(dbHelper.getWordsAdapter(this));
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(DictionaryActivity.this, position + 1 + "clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
+        registerForContextMenu(listView);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -65,5 +64,29 @@ public class DictionaryActivity extends AppCompatActivity {
         }
         startActivity(intent);
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.edit_word:
+                Toast.makeText(DictionaryActivity.this, "Edit clicked ", Toast.LENGTH_SHORT).show();
+                //TODO: create dialog for edits
+                //edit_word(info.id);
+                return true;
+            case R.id.delete_word:
+                dbHelper.deleteWord(String.valueOf(info.id));
+                //TODO: refresh the dictionary listView and update the words' IDs
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 }

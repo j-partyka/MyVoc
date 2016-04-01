@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.SimpleCursorAdapter;
 
 import com.learnitgirl.myvoc.R;
@@ -88,6 +89,34 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
                 "select * from " + DictionaryContract.DictionaryEntry.TABLE_NAME, whereArgs);
 
         return cursor;
+    }
+
+    private Cursor getWord(long id) {
+        Cursor cursor = getWords();
+        cursor.move((int) id);
+        return cursor;
+    }
+
+    private Word getWordReturnWord(Cursor cursor) {
+        String nativeWord = "";
+        String foreignWord = "";
+        int knowledge = 0;
+        cursor.moveToFirst();
+        int columnIndex = cursor.getColumnIndex(DictionaryEntry.COLUMN_NAME_FOREIGN_WORD);
+        if (columnIndex != -1) {
+            foreignWord = cursor.getString(columnIndex);
+        }
+        int columnIndex1 = cursor.getColumnIndex(DictionaryEntry.COLUMN_NAME_NATIVE_WORD);
+        if (columnIndex1 != -1) {
+            nativeWord = cursor.getString(columnIndex1);
+        }
+
+        int columnIndex2 = cursor.getColumnIndex(DictionaryEntry.COLUMN_NAME_KNOWLEDGE);
+        if (columnIndex2 != -1) {
+            knowledge = cursor.getInt(columnIndex2);
+        }
+        Word word = new Word(foreignWord, nativeWord, knowledge);
+        return word;
     }
 
     public SimpleCursorAdapter getWordsAdapter(Context context) {
@@ -177,5 +206,22 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
             result = true;
         }
         return result;
+    }
+
+    public void increaseKnowledge(String shownWord) {
+
+        String[] columns = new String[]{DictionaryEntry.COLUMN_NAME_FOREIGN_WORD, DictionaryEntry.COLUMN_NAME_NATIVE_WORD, DictionaryEntry.COLUMN_NAME_KNOWLEDGE};
+        String whereClause = DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD + " = ?";
+        String[] whereArgs = new String[]{shownWord};
+
+        Cursor cursor = dbWrite.query(DictionaryContract.DictionaryEntry.TABLE_NAME, columns, whereClause, whereArgs, null, null, null);
+
+        Word word = getWordReturnWord(cursor);
+        Log.i("TAG", word.getForeignWord());
+        Log.i("TAG", word.getNativeWord());
+        ContentValues values = new ContentValues();
+        values.put(DictionaryEntry.COLUMN_NAME_KNOWLEDGE, word.getKnowledge() + 1);
+
+        dbWrite.update(DictionaryEntry.TABLE_NAME, values, whereClause,whereArgs);
     }
 }
