@@ -24,4 +24,10 @@
     <string name="action_dictionary">Dictionary</string>
     <string name="action_learn">Learn</string>
     <string name="title_activity_add_new_word">Add New Word</string>
+    <string name="title_activity_dictionary">Dictionary</string>
+    <string name="title_activity_learn">Learn</string>
+    <string name="submit_learn_activity">Submit</string>
+    <string name="translation_learn_activity">Type a translation</string>
+    <string name="edit_word">Edit</string>
+    <string name="delete_word">Delete</string>
 </resources>
