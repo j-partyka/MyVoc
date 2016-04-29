@@ -3,7 +3,9 @@ package com.learnitgirl.myvoc.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,11 +46,18 @@ public class DictionaryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dictionary, container, false);
         listView = (ListView) view.findViewById(R.id.dictionary_listview);
 
-        listView.setAdapter(MainActivity.dbHelper.getWordsAdapter(getActivity()));
+        listView.setAdapter(MainActivity.dbHelper.getWordsAdapter(getContext()));
 
         registerForContextMenu(listView);
         // Inflate the layout for this fragment
         return view;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater menuInflater = getActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.context_menu, menu);
     }
 
     @Override

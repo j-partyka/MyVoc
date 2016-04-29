@@ -30,7 +30,6 @@
         android:layout_below="@+id/nativeWordEditText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="76dp"
-        android:onClick="save"
         android:text="@string/save_btn" />
 
 </RelativeLayout>

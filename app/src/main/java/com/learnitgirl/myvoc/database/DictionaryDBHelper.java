@@ -123,11 +123,14 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
     public SimpleCursorAdapter getWordsAdapter(Context context) {
         Cursor cursor = getWords();
         cursor.moveToFirst();
-        String[] from = {DictionaryContract.DictionaryEntry._ID, DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD,
+//        String[] from = {DictionaryContract.DictionaryEntry._ID, DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD,
+//                DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD,
+//                DictionaryContract.DictionaryEntry.COLUMN_NAME_KNOWLEDGE};
+        String[] from = {DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD,
                 DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD,
                 DictionaryContract.DictionaryEntry.COLUMN_NAME_KNOWLEDGE};
-
-        int[] toViews = {R.id.wordIDTextView, R.id.foreignWordTextView, R.id.nativeWordTextView, R.id.knowledgeTextView};
+      //  int[] toViews = {R.id.wordIDTextView, R.id.foreignWordTextView, R.id.nativeWordTextView, R.id.knowledgeTextView};
+        int[] toViews = {R.id.foreignWordTextView, R.id.nativeWordTextView, R.id.knowledgeTextView};
         return new SimpleCursorAdapter(context, R.layout.row, cursor, from, toViews, 0);
     }
 

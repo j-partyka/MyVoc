@@ -40,7 +40,6 @@ public class LearnFragment extends Fragment {
         return fragment;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,22 +52,22 @@ public class LearnFragment extends Fragment {
 
         String foreignWord = MainActivity.dbHelper.getRandomForeignWord();
         shownWord.setText(foreignWord);
-        // Inflate the layout for this fragment
+
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (MainActivity.dbHelper.checkForeignWord(shownWord.getText().toString(), guessWord.getText().toString())) {
+                    Toast.makeText(getContext(), "Correct!", Toast.LENGTH_SHORT).show();
+                    MainActivity.dbHelper.increaseKnowledge(shownWord.getText().toString());
+                    guessWord.setText("");
+                    shownWord.setText(MainActivity.dbHelper.getRandomForeignWord());
+
+                } else {
+                    Toast.makeText(getContext(), "Try again!", Toast.LENGTH_SHORT).show();
+                    guessWord.setText("");
+                }
+            }
+        });
         return view;
     }
-
-    public void submitWord(View w) {
-
-        if (MainActivity.dbHelper.checkForeignWord(shownWord.getText().toString(), guessWord.getText().toString())) {
-            Toast.makeText(getContext(), "Correct!", Toast.LENGTH_SHORT).show();
-            MainActivity.dbHelper.increaseKnowledge(shownWord.getText().toString());
-            guessWord.setText("");
-            shownWord.setText(MainActivity.dbHelper.getRandomForeignWord());
-
-        } else {
-            Toast.makeText(getContext(), "Try again!", Toast.LENGTH_SHORT).show();
-            guessWord.setText("");
-        }
-    }
-
 }

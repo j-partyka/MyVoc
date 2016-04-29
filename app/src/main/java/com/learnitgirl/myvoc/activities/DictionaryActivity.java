@@ -49,12 +49,6 @@ public class DictionaryActivity extends AppCompatActivity {
         Intent intent;
 
         switch (item.getItemId()) {
-            case R.id.action_learn:
-                intent = new Intent(this, LearnActivity.class);
-                break;
-            case R.id.action_new_word:
-                intent = new Intent(this, AddNewWordActivity.class);
-                break;
             case R.id.action_dictionary:
                 intent = new Intent(this, DictionaryActivity.class);
                 break;
