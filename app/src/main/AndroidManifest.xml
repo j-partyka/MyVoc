@@ -13,23 +13,33 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/MaterialTheme">
+        <!--<activity-->
+            <!--android:name=".activities.AddNewWordActivity"-->
+            <!--android:label="@string/app_name">-->
+            <!--&lt;!&ndash;<intent-filter>&ndash;&gt;-->
+                <!--&lt;!&ndash;<action android:name="android.intent.action.MAIN" />&ndash;&gt;-->
+
+                <!--&lt;!&ndash;<category android:name="android.intent.category.LAUNCHER" />&ndash;&gt;-->
+            <!--&lt;!&ndash;</intent-filter>&ndash;&gt;-->
+        <!--</activity>-->
+        <!--<activity-->
+            <!--android:name=".activities.DictionaryActivity"-->
+            <!--android:label="@string/title_activity_dictionary"-->
+            <!--android:parentActivityName=".activities.AddNewWordActivity" />-->
+        <!--<activity-->
+            <!--android:name=".activities.LearnActivity"-->
+            <!--android:label="@string/title_activity_learn"-->
+            <!--android:parentActivityName=".activities.AddNewWordActivity" />-->
         <activity
-            android:name=".activities.AddNewWordActivity"
-            android:label="@string/app_name">
+            android:name=".activities.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/MaterialTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.DictionaryActivity"
-            android:label="@string/title_activity_dictionary"
-            android:parentActivityName=".activities.AddNewWordActivity"></activity>
-        <activity
-            android:name=".activities.LearnActivity"
-            android:label="@string/title_activity_learn"
-            android:parentActivityName=".activities.AddNewWordActivity"></activity>
     </application>
 
 </manifest>
