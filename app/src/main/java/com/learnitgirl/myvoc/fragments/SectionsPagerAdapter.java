@@ -28,8 +28,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Return a PlaceholderFragment (defined as a static inner class below).
         switch(position){
             case 0: return NewWordFragment.newInstance(0);
-            case 1: return NewWordFragment.newInstance(0);
-            case 2: return NewWordFragment.newInstance(0);
+            case 1: return DictionaryFragment.newInstance(1);
+            case 2: return LearnFragment.newInstance(2);
         }
         return null;
     }
