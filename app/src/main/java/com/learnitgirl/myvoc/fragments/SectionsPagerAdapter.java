@@ -1,9 +1,5 @@
 package com.learnitgirl.myvoc.fragments;
 
-/**
- * Created by joanna on 29.04.16.
- */
-
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,10 +22,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        switch(position){
-            case 0: return NewWordFragment.newInstance(0);
-            case 1: return DictionaryFragment.newInstance(1);
-            case 2: return LearnFragment.newInstance(2);
+        switch (position) {
+            case 0:
+                return NewWordFragment.newInstance(0);
+            case 1:
+                return DictionaryFragment.newInstance(1);
+            case 2:
+                return LearnFragment.newInstance(2);
         }
         return null;
     }

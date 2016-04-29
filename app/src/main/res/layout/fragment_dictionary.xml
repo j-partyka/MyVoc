@@ -8,6 +8,7 @@
         android:id="@+id/dictionary_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
         android:scrollingCache="true"
         android:smoothScrollbar="true"/>
 

@@ -16,9 +16,6 @@ import java.util.Random;
 
 import static com.learnitgirl.myvoc.database.DictionaryContract.DictionaryEntry;
 
-/**
- * Created by joanna on 26.02.16.
- */
 public class DictionaryDBHelper extends SQLiteOpenHelper {
 
     // If you change the database schema, you must increment the database version.
@@ -47,7 +44,7 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
     /**
      * Create table in database
      *
-     * @param db
+     * @param db Local database
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -57,9 +54,9 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
     /**
      * Upgrades table in database
      *
-     * @param db
-     * @param oldVersion
-     * @param newVersion
+     * @param db         Local database
+     * @param oldVersion oldVersion of database
+     * @param newVersion newVersion of database
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -76,20 +73,15 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
 
         long newRowId = dbWrite.insert(DictionaryContract.DictionaryEntry.TABLE_NAME, null, values);
 
-        if (newRowId != -1)
-            return true;
-        else {
-            return false;
-        }
+        return newRowId != -1;
     }
 
     private Cursor getWords() {
 
         String[] whereArgs = new String[]{};
-        Cursor cursor = dbRead.rawQuery(
-                "select * from " + DictionaryContract.DictionaryEntry.TABLE_NAME, whereArgs);
 
-        return cursor;
+        return dbRead.rawQuery(
+                "select * from " + DictionaryEntry.TABLE_NAME, whereArgs);
     }
 
     private Cursor getWord(long id) {
@@ -116,8 +108,7 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         if (columnIndex2 != -1) {
             knowledge = cursor.getInt(columnIndex2);
         }
-        Word word = new Word(foreignWord, nativeWord, knowledge);
-        return word;
+        return new Word(foreignWord, nativeWord, knowledge);
     }
 
     public SimpleCursorAdapter getWordsAdapter(Context context) {
@@ -129,7 +120,7 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         String[] from = {DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD,
                 DictionaryContract.DictionaryEntry.COLUMN_NAME_NATIVE_WORD,
                 DictionaryContract.DictionaryEntry.COLUMN_NAME_KNOWLEDGE};
-      //  int[] toViews = {R.id.wordIDTextView, R.id.foreignWordTextView, R.id.nativeWordTextView, R.id.knowledgeTextView};
+        //  int[] toViews = {R.id.wordIDTextView, R.id.foreignWordTextView, R.id.nativeWordTextView, R.id.knowledgeTextView};
         int[] toViews = {R.id.foreignWordTextView, R.id.nativeWordTextView, R.id.knowledgeTextView};
         return new SimpleCursorAdapter(context, R.layout.row, cursor, from, toViews, 0);
     }
@@ -137,11 +128,7 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
     public boolean deleteWord(String id) {
 
         String[] whereArgs = {id};
-        if (dbWrite.delete(DictionaryContract.DictionaryEntry.TABLE_NAME, DictionaryContract.DictionaryEntry._ID + " = ?", whereArgs) > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return dbWrite.delete(DictionaryEntry.TABLE_NAME, DictionaryEntry._ID + " = ?", whereArgs) > 0;
     }
 
     public String getNativeWord(String foreignWord) {
@@ -157,7 +144,7 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
 
         String inverseType = DictionaryEntry.COLUMN_NAME_FOREIGN_WORD;
 
-        if (type.equals(DictionaryEntry.COLUMN_NAME_FOREIGN_WORD)){
+        if (type.equals(DictionaryEntry.COLUMN_NAME_FOREIGN_WORD)) {
             inverseType = DictionaryEntry.COLUMN_NAME_NATIVE_WORD;
         }
 
@@ -223,7 +210,7 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(DictionaryEntry.COLUMN_NAME_KNOWLEDGE, word.getKnowledge() + 1);
 
-        dbWrite.update(DictionaryEntry.TABLE_NAME, values, whereClause,whereArgs);
+        dbWrite.update(DictionaryEntry.TABLE_NAME, values, whereClause, whereArgs);
     }
 
     @VisibleForTesting

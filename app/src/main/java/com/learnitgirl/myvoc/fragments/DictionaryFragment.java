@@ -33,7 +33,7 @@ public class DictionaryFragment extends Fragment {
      * number.
      */
     public static DictionaryFragment newInstance(int sectionNumber) {
-       DictionaryFragment fragment = new DictionaryFragment();
+        DictionaryFragment fragment = new DictionaryFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
@@ -76,7 +76,4 @@ public class DictionaryFragment extends Fragment {
                 return super.onContextItemSelected(item);
         }
     }
-
-
-
 }
