@@ -4,9 +4,12 @@ package com.learnitgirl.myvoc.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.learnitgirl.myvoc.R;
 import com.learnitgirl.myvoc.activities.MainActivity;
@@ -46,6 +49,23 @@ public class DictionaryFragment extends Fragment {
         registerForContextMenu(listView);
         // Inflate the layout for this fragment
         return view;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        switch (item.getItemId()) {
+            case R.id.edit_word:
+                Toast.makeText(getContext(), "Edit clicked ", Toast.LENGTH_SHORT).show();
+                //TODO: create dialog for edits
+                //edit_word(info.id);
+                return true;
+            case R.id.delete_word:
+                MainActivity.dbHelper.deleteWord(String.valueOf(info.id));
+                listView.setAdapter(MainActivity.dbHelper.getWordsAdapter(getContext()));
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 
 

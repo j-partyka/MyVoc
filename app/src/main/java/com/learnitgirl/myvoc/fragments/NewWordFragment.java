@@ -43,10 +43,10 @@ public class NewWordFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_new_word, container, false);
     }
 
-    public void save(View v) {
-        EditText foreignEditText = (EditText) getActivity().findViewById(R.id.foreignWordEditText);
+    public void save(View view) {
+        EditText foreignEditText = (EditText) view.findViewById(R.id.foreignWordEditText);
 
-        EditText nativeEditText = (EditText) getActivity().findViewById(R.id.nativeWordEditText);
+        EditText nativeEditText = (EditText) view.findViewById(R.id.nativeWordEditText);
 
         String foreignWord = foreignEditText.getText().toString();
         String nativeWord = nativeEditText.getText().toString();
@@ -54,12 +54,12 @@ public class NewWordFragment extends Fragment {
         Word word = new Word(foreignWord, nativeWord, 0);
 
         if (foreignWord.equals(MainActivity.dbHelper.getForeignWord(nativeWord)) && nativeWord.equals(MainActivity.dbHelper.getNativeWord(foreignWord))) {
-            Toast.makeText(this.getActivity(), "The word already exists in a database", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "The word already exists in a database", Toast.LENGTH_SHORT).show();
         } else {
             if (MainActivity.dbHelper.insertWord(word)) {
-                Toast.makeText(this.getActivity(), "Saved!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this.getActivity(), "Not saved!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Not saved!", Toast.LENGTH_SHORT).show();
             }
         }
 
