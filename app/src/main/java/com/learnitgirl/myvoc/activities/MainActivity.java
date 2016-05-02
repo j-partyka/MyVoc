@@ -8,12 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.learnitgirl.myvoc.R;
 import com.learnitgirl.myvoc.database.DictionaryDBHelper;
 import com.learnitgirl.myvoc.fragments.SectionsPagerAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
 
     public static DictionaryDBHelper dbHelper;
 
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         assert viewPager != null;
         viewPager.setAdapter(sectionsPagerAdapter);
 
+        viewPager.addOnPageChangeListener(this);
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         assert tabLayout != null;
         tabLayout.setupWithViewPager(viewPager);
@@ -76,5 +79,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        Toast.makeText(this, "position" + position,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }
