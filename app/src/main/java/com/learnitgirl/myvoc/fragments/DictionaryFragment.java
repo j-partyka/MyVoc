@@ -15,6 +15,10 @@ import android.widget.Toast;
 
 import com.learnitgirl.myvoc.R;
 import com.learnitgirl.myvoc.activities.MainActivity;
+import com.learnitgirl.myvoc.utils.NewWordAddedEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,7 +53,7 @@ public class DictionaryFragment extends Fragment {
         listView.setAdapter(MainActivity.dbHelper.getWordsAdapter(getContext()));
 
         registerForContextMenu(listView);
-        // Inflate the layout for this fragment
+
         return view;
     }
 
@@ -75,5 +79,24 @@ public class DictionaryFragment extends Fragment {
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    @Subscribe
+    public void onEvent(NewWordAddedEvent event){
+        Toast.makeText(getActivity(), event.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+        Toast.makeText(getActivity(), "it's onStart", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+        Toast.makeText(getActivity(), "it's onStop", Toast.LENGTH_SHORT).show();
     }
 }

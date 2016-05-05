@@ -12,7 +12,10 @@ import android.widget.Toast;
 
 import com.learnitgirl.myvoc.R;
 import com.learnitgirl.myvoc.activities.MainActivity;
+import com.learnitgirl.myvoc.utils.NewWordAddedEvent;
 import com.learnitgirl.myvoc.utils.Word;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,7 +23,7 @@ import com.learnitgirl.myvoc.utils.Word;
 public class NewWordFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "0";
-
+    EventBus eventBus = new EventBus();
     Button saveBtn;
 
     public NewWordFragment() {
@@ -40,7 +43,7 @@ public class NewWordFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_new_word, container, false);
@@ -62,6 +65,7 @@ public class NewWordFragment extends Fragment {
                     Toast.makeText(getContext(), "The word already exists in a database", Toast.LENGTH_SHORT).show();
                 } else {
                     if (MainActivity.dbHelper.insertWord(word)) {
+                        eventBus.getDefault().post(new NewWordAddedEvent("New word is added - eventbus"));
                         Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getContext(), "Not saved!", Toast.LENGTH_SHORT).show();

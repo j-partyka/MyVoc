@@ -165,15 +165,18 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
 
     public String getRandomForeignWord() {
         Random random = new Random();
-        int randomNum = random.nextInt(10);
+        int randomNum = random.nextInt(15);
         String[] columns = new String[]{DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD};
         String whereClause = DictionaryContract.DictionaryEntry._ID + " = ? ";
         String[] whereArgs = new String[]{Integer.toString(randomNum)};
         Cursor cursor = dbRead.query(DictionaryContract.DictionaryEntry.TABLE_NAME, columns, whereClause, whereArgs, null, null, null);
 
         String foreignWord = "Column Index -1";
-
-        if (cursor != null && cursor.moveToFirst()) {
+        if (cursor == null) {
+            getRandomForeignWord();
+        } else if (cursor != null && cursor.moveToFirst()) {
+            foreignWord = cursor.getString(cursor.getColumnIndexOrThrow(DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD));
+        } else if (cursor != null && cursor.moveToPrevious()) {
             foreignWord = cursor.getString(cursor.getColumnIndexOrThrow(DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD));
         }
         return foreignWord;
