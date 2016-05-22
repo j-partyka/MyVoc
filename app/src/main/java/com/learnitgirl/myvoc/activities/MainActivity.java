@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         assert tabLayout != null;
         tabLayout.setupWithViewPager(viewPager);
+//        Toast.makeText(this, "It's onCreate", Toast.LENGTH_SHORT).show();
     }
 
 

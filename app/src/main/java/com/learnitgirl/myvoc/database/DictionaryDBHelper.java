@@ -3,6 +3,7 @@ package com.learnitgirl.myvoc.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.VisibleForTesting;
@@ -90,6 +91,12 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public String getWordString(long id) {
+        Cursor cursor = getWords();
+        cursor.move((int) id);
+        return cursor.getString(cursor.getColumnIndex(DictionaryEntry.COLUMN_NAME_FOREIGN_WORD));
+    }
+
     private Word getWordReturnWord(Cursor cursor) {
         String nativeWord = "";
         String foreignWord = "";
@@ -164,20 +171,42 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
     }
 
     public String getRandomForeignWord() {
+        int numRows = (int) DatabaseUtils.queryNumEntries(dbRead, DictionaryEntry.TABLE_NAME);
         Random random = new Random();
-        int randomNum = random.nextInt(15);
+        int randomNum = random.nextInt(numRows);
+
         String[] columns = new String[]{DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD};
         String whereClause = DictionaryContract.DictionaryEntry._ID + " = ? ";
         String[] whereArgs = new String[]{Integer.toString(randomNum)};
         Cursor cursor = dbRead.query(DictionaryContract.DictionaryEntry.TABLE_NAME, columns, whereClause, whereArgs, null, null, null);
 
         String foreignWord = "Column Index -1";
-        if (cursor == null) {
-            getRandomForeignWord();
-        } else if (cursor != null && cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             foreignWord = cursor.getString(cursor.getColumnIndexOrThrow(DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD));
-        } else if (cursor != null && cursor.moveToPrevious()) {
+        }
+        return foreignWord;
+    }
+
+    public String getTheMostUnknownWord() {
+        int numRows = (int) DatabaseUtils.queryNumEntries(dbRead, DictionaryEntry.TABLE_NAME);
+        Random random = new Random();
+        int randomNum = random.nextInt(numRows);
+
+        String[] columns = new String[]{DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD};
+        String whereClause = DictionaryContract.DictionaryEntry._ID + " = ? AND " + DictionaryEntry.COLUMN_NAME_KNOWLEDGE + " = ?";
+        int knowledge = 0;
+        String[] whereArgs = new String[]{Integer.toString(randomNum), Integer.toString(0)};
+        Cursor cursor = dbRead.query(DictionaryContract.DictionaryEntry.TABLE_NAME, columns, whereClause, whereArgs, null, null, null);
+
+        String foreignWord = "Column Index -1";
+
+        foreignWord = "The is no more words that you don't know";
+//            whereArgs = new String[]{Integer.toString(randomNum), Integer.toString(knowledge++)};
+//            cursor = dbRead.query(DictionaryContract.DictionaryEntry.TABLE_NAME, columns, whereClause, whereArgs, null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
             foreignWord = cursor.getString(cursor.getColumnIndexOrThrow(DictionaryContract.DictionaryEntry.COLUMN_NAME_FOREIGN_WORD));
+            cursor.close();
         }
         return foreignWord;
     }

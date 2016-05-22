@@ -50,7 +50,7 @@ public class LearnFragment extends Fragment {
         submitBtn = (Button) view.findViewById(R.id.submitBtn);
         guessWord = (EditText) view.findViewById(R.id.guessWordEditText);
 
-        String foreignWord = MainActivity.dbHelper.getRandomForeignWord();
+        String foreignWord = MainActivity.dbHelper.getWordString(1);
         shownWord.setText(foreignWord);
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +60,7 @@ public class LearnFragment extends Fragment {
                     Toast.makeText(getContext(), "Correct!", Toast.LENGTH_SHORT).show();
                     MainActivity.dbHelper.increaseKnowledge(shownWord.getText().toString());
                     guessWord.setText("");
-                    shownWord.setText(MainActivity.dbHelper.getRandomForeignWord());
+                    shownWord.setText(MainActivity.dbHelper.getTheMostUnknownWord());
 
                 } else {
                     Toast.makeText(getContext(), "Try again!", Toast.LENGTH_SHORT).show();

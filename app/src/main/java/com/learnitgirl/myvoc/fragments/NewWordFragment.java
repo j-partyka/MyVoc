@@ -23,7 +23,6 @@ import org.greenrobot.eventbus.EventBus;
 public class NewWordFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "0";
-    EventBus eventBus = new EventBus();
     Button saveBtn;
 
     public NewWordFragment() {
@@ -65,7 +64,7 @@ public class NewWordFragment extends Fragment {
                     Toast.makeText(getContext(), "The word already exists in a database", Toast.LENGTH_SHORT).show();
                 } else {
                     if (MainActivity.dbHelper.insertWord(word)) {
-                        eventBus.getDefault().post(new NewWordAddedEvent("New word is added - eventbus"));
+                        EventBus.getDefault().post(new NewWordAddedEvent("New word is added - eventbus"));
                         Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getContext(), "Not saved!", Toast.LENGTH_SHORT).show();
