@@ -51,8 +51,8 @@ public class NewWordFragment extends Fragment {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText foreignEditText = (EditText) view.findViewById(R.id.foreignWordEditText);
 
+                EditText foreignEditText = (EditText) view.findViewById(R.id.foreignWordEditText);
                 EditText nativeEditText = (EditText) view.findViewById(R.id.nativeWordEditText);
 
                 String foreignWord = foreignEditText.getText().toString();
@@ -64,7 +64,7 @@ public class NewWordFragment extends Fragment {
                     Toast.makeText(getContext(), "The word already exists in a database", Toast.LENGTH_SHORT).show();
                 } else {
                     if (MainActivity.dbHelper.insertWord(word)) {
-                        EventBus.getDefault().post(new NewWordAddedEvent("New word is added - eventbus"));
+                        EventBus.getDefault().post(new NewWordAddedEvent("New word is added"));
                         Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getContext(), "Not saved!", Toast.LENGTH_SHORT).show();

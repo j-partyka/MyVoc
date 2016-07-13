@@ -19,6 +19,8 @@ import static com.learnitgirl.myvoc.database.DictionaryContract.DictionaryEntry;
 
 public class DictionaryDBHelper extends SQLiteOpenHelper {
 
+    public static final String TAG = DictionaryDBHelper.class.getCanonicalName();
+
     // If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Dictionary.db";
@@ -77,7 +79,7 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         return newRowId != -1;
     }
 
-    private Cursor getWords() {
+    public Cursor getWords() {
 
         String[] whereArgs = new String[]{};
 
@@ -95,6 +97,16 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         Cursor cursor = getWords();
         cursor.move((int) id);
         return cursor.getString(cursor.getColumnIndex(DictionaryEntry.COLUMN_NAME_FOREIGN_WORD));
+    }
+
+    public int getLastWordPosition() {
+        Cursor cursor = getWords();
+        cursor.moveToFirst();
+        int count = 0;
+        while (!cursor.moveToNext()) {
+            count++;
+        }
+        return count;
     }
 
     private Word getWordReturnWord(Cursor cursor) {
@@ -243,6 +255,17 @@ public class DictionaryDBHelper extends SQLiteOpenHelper {
         values.put(DictionaryEntry.COLUMN_NAME_KNOWLEDGE, word.getKnowledge() + 1);
 
         dbWrite.update(DictionaryEntry.TABLE_NAME, values, whereClause, whereArgs);
+    }
+
+    //It generates CursorIndexOutOfBoundsException: Index -1 requested, with a size of 0
+    public String getLastWord() {
+        String lastWord = "";
+        Cursor cursor = getWords();
+        cursor.moveToFirst();
+        cursor.moveToLast();
+        cursor.moveToPrevious();
+        lastWord = cursor.getString(cursor.getColumnIndexOrThrow(DictionaryEntry.COLUMN_NAME_FOREIGN_WORD));
+        return lastWord;
     }
 
     @VisibleForTesting

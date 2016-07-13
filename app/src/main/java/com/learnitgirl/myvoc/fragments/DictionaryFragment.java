@@ -1,6 +1,6 @@
 package com.learnitgirl.myvoc.fragments;
 
-
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,9 +28,9 @@ import org.greenrobot.eventbus.Subscribe;
 public class DictionaryFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "1";
-    ListView listView;
-    private SimpleCursorAdapter adapter;
 
+    private ListView listView;
+    private SimpleCursorAdapter adapter;
 
     public DictionaryFragment() {
         // Required empty public constructor
@@ -53,7 +53,6 @@ public class DictionaryFragment extends Fragment {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         adapter = MainActivity.dbHelper.getWordsAdapter(getContext());
-
     }
 
     @Override
@@ -80,13 +79,15 @@ public class DictionaryFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
-            case R.id.edit_word:
-                Toast.makeText(getContext(), "Edit clicked ", Toast.LENGTH_SHORT).show();
-                //TODO: create dialog for edits
-                //edit_word(info.id);
-                return true;
+//            case R.id.edit_word:
+//                Toast.makeText(getContext(), "Edit clicked ", Toast.LENGTH_SHORT).show();
+//                //TODO: create dialog for edits
+//                //edit_word(info.id);
+//                return true;
             case R.id.delete_word:
                 MainActivity.dbHelper.deleteWord(String.valueOf(info.id));
+//                adapter.swapCursor(MainActivity.dbHelper.getWords());
+//                adapter.notifyDataSetChanged();
                 listView.setAdapter(MainActivity.dbHelper.getWordsAdapter(getContext()));
             default:
                 return super.onContextItemSelected(item);
@@ -94,22 +95,11 @@ public class DictionaryFragment extends Fragment {
     }
 
     @Subscribe
-    public void onEvent(NewWordAddedEvent event){
+    public void onEvent(NewWordAddedEvent event) {
+        Toast.makeText(getContext(), event.getMessage() + "has been delivered in Dictionary", Toast.LENGTH_SHORT).show();
+        Cursor newCursor = MainActivity.dbHelper.getWords();
+        adapter.changeCursor(newCursor);
         adapter.notifyDataSetChanged();
-        Toast.makeText(DictionaryFragment.this.getContext(), event.getMessage(), Toast.LENGTH_SHORT).show();
+        listView.setAdapter(MainActivity.dbHelper.getWordsAdapter(getContext()));
     }
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        EventBus.getDefault().register(this);
-//        Toast.makeText(getActivity(), "it's onStart", Toast.LENGTH_SHORT).show();
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        EventBus.getDefault().unregister(this);
-//        Toast.makeText(getActivity(), "it's onStop", Toast.LENGTH_SHORT).show();
-//    }
 }
