@@ -3,6 +3,7 @@ package com.learnitgirl.myvoc.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.learnitgirl.myvoc.R;
-import com.learnitgirl.myvoc.activities.MainActivity;
-import com.learnitgirl.myvoc.utils.NewWordAddedEvent;
+import com.learnitgirl.myvoc.database.Repo;
 import com.learnitgirl.myvoc.utils.Word;
-
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +21,9 @@ import org.greenrobot.eventbus.EventBus;
 public class NewWordFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "0";
+    private static final String TAG = NewWordFragment.class.getSimpleName();
     Button saveBtn;
+    private Repo repo;
 
     public NewWordFragment() {
         // Required empty public constructor
@@ -46,6 +46,7 @@ public class NewWordFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_new_word, container, false);
+        repo = new Repo(getActivity());
         saveBtn = (Button) view.findViewById(R.id.saveBtn);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -58,17 +59,18 @@ public class NewWordFragment extends Fragment {
                 String foreignWord = foreignEditText.getText().toString();
                 String nativeWord = nativeEditText.getText().toString();
 
-                Word word = new Word(foreignWord, nativeWord, 0);
+                Word word = new Word("1", foreignWord, nativeWord, 0);
+//                BasicUser basicUser = new BasicUser("1324", firstName, lastName);
 
-                if (foreignWord.equals(MainActivity.dbHelper.getForeignWord(nativeWord)) && nativeWord.equals(MainActivity.dbHelper.getNativeWord(foreignWord))) {
+                if (repo.Words.getByForeign(word.getForeignWord()) != null){
                     Toast.makeText(getContext(), "The word already exists in a database", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (MainActivity.dbHelper.insertWord(word)) {
-                        EventBus.getDefault().post(new NewWordAddedEvent("New word is added"));
-                        Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getContext(), "Not saved!", Toast.LENGTH_SHORT).show();
-                    }
+                        word.save(repo);
+//                        EventBus.getDefault().post(new AddNewWordEvent(word));
+                        Log.i(TAG, word + " added to DB");
+//                    } else {
+//                        Log.i(TAG, word + " cannot be added to DB");
+//                    }
                 }
 
                 foreignEditText.setText("");

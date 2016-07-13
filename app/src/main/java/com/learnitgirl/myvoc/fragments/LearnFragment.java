@@ -9,10 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.learnitgirl.myvoc.R;
-import com.learnitgirl.myvoc.activities.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,24 +48,24 @@ public class LearnFragment extends Fragment {
         submitBtn = (Button) view.findViewById(R.id.submitBtn);
         guessWord = (EditText) view.findViewById(R.id.guessWordEditText);
 
-        String foreignWord = MainActivity.dbHelper.getWordString(1);
-        shownWord.setText(foreignWord);
-
-        submitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (MainActivity.dbHelper.checkForeignWord(shownWord.getText().toString(), guessWord.getText().toString())) {
-                    Toast.makeText(getContext(), "Correct!", Toast.LENGTH_SHORT).show();
-                    MainActivity.dbHelper.increaseKnowledge(shownWord.getText().toString());
-                    guessWord.setText("");
-                    shownWord.setText(MainActivity.dbHelper.getTheMostUnknownWord());
-
-                } else {
-                    Toast.makeText(getContext(), "Try again!", Toast.LENGTH_SHORT).show();
-                    guessWord.setText("");
-                }
-            }
-        });
+//        String foreignWord = MainActivity.dbHelper.getWordString(1);
+//        shownWord.setText(foreignWord);
+//
+//        submitBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (MainActivity.dbHelper.checkForeignWord(shownWord.getText().toString(), guessWord.getText().toString())) {
+//                    Toast.makeText(getContext(), "Correct!", Toast.LENGTH_SHORT).show();
+//                    MainActivity.dbHelper.increaseKnowledge(shownWord.getText().toString());
+//                    guessWord.setText("");
+//                    shownWord.setText(MainActivity.dbHelper.getTheMostUnknownWord());
+//
+//                } else {
+//                    Toast.makeText(getContext(), "Try again!", Toast.LENGTH_SHORT).show();
+//                    guessWord.setText("");
+//                }
+//            }
+//        });
         return view;
     }
 }
