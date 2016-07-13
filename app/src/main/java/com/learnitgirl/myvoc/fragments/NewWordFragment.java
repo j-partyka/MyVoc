@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.learnitgirl.myvoc.R;
 import com.learnitgirl.myvoc.activities.MainActivity;
-import com.learnitgirl.myvoc.utils.NewWordAddedEvent;
+import com.learnitgirl.myvoc.utils.AddNewWordEvent;
 import com.learnitgirl.myvoc.utils.Word;
 
 import org.greenrobot.eventbus.EventBus;
@@ -64,7 +64,7 @@ public class NewWordFragment extends Fragment {
                     Toast.makeText(getContext(), "The word already exists in a database", Toast.LENGTH_SHORT).show();
                 } else {
                     if (MainActivity.dbHelper.insertWord(word)) {
-                        EventBus.getDefault().post(new NewWordAddedEvent("New word is added"));
+                        EventBus.getDefault().post(new AddNewWordEvent("New word is added"));
                         Toast.makeText(getContext(), "Saved!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(getContext(), "Not saved!", Toast.LENGTH_SHORT).show();

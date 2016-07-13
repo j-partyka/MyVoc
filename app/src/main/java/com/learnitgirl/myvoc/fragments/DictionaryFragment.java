@@ -1,9 +1,10 @@
 package com.learnitgirl.myvoc.fragments;
 
-import android.database.Cursor;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -13,11 +14,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
 import com.learnitgirl.myvoc.R;
 import com.learnitgirl.myvoc.activities.MainActivity;
-import com.learnitgirl.myvoc.utils.NewWordAddedEvent;
+import com.learnitgirl.myvoc.utils.AddNewWordEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -28,6 +28,7 @@ import org.greenrobot.eventbus.Subscribe;
 public class DictionaryFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "1";
+    private static final String TAG = DictionaryFragment.class.getSimpleName();
 
     private ListView listView;
     private SimpleCursorAdapter adapter;
@@ -94,12 +95,19 @@ public class DictionaryFragment extends Fragment {
         }
     }
 
-    @Subscribe
-    public void onEvent(NewWordAddedEvent event) {
-        Toast.makeText(getContext(), event.getMessage() + "has been delivered in Dictionary", Toast.LENGTH_SHORT).show();
-        Cursor newCursor = MainActivity.dbHelper.getWords();
-        adapter.changeCursor(newCursor);
-        adapter.notifyDataSetChanged();
-        listView.setAdapter(MainActivity.dbHelper.getWordsAdapter(getContext()));
+        @Subscribe
+    public void onEvent(AddNewWordEvent event) {
+//        Toast.makeText(DictionaryFragment.this.getContext(), event.getWord() + "has been delivered in Dictionary", Toast.LENGTH_SHORT).show();
+//        adapter.changeCursor(newCursor);
+//        adapter.notifyDataSetChanged();
+        Context context = getContext() != null ? getContext() : (getActivity() != null ? getActivity() : null);
+        if (context != null) {
+            Log.i(TAG, event.getWord().toString() + " start processing event - update the view.");
+            MainActivity.dbHelper.insertWord(event.getWord());
+            listView.setAdapter(MainActivity.dbHelper.getWordsAdapter(context));
+        } else {
+            Log.i(TAG, "There is no context!");
+        }
+        Log.i(TAG, event.getWord() + " Saved and ListView updated");
     }
 }
